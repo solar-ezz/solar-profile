@@ -33,14 +33,13 @@
             overflow-x: hidden;
             position: relative;
             zoom: 0.9;
-            cursor: url('black.cur'), auto;
+            cursor: default;
         }
 
         a, button {
-            cursor: url('black.cur'), pointer;
+            cursor: pointer;
         }
 
-        
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -55,7 +54,6 @@
             z-index: 0;
         }
 
-        
         .grid-bg {
             position: fixed;
             top: 0;
@@ -80,7 +78,6 @@
             50% { opacity: 0.6; }
         }
 
-        
         .scanlines {
             position: fixed;
             top: 0;
@@ -112,7 +109,6 @@
             align-items: center;
         }
 
-        
         .profile {
             text-align: center;
             margin-bottom: 50px;
@@ -306,7 +302,6 @@
             animation: fadeInUp 0.8s ease 0.4s both;
         }
 
-        
         .stats {
             display: flex;
             gap: 30px;
@@ -363,7 +358,6 @@
             letter-spacing: 1px;
         }
 
-        
         .buttons {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -449,7 +443,6 @@
         .btn:nth-child(2) { animation: fadeInUp 0.8s ease 0.7s both; }
         .btn:nth-child(3) { animation: fadeInUp 0.8s ease 0.8s both; }
 
-        
         .socials {
             display: flex;
             gap: 15px;
@@ -504,7 +497,6 @@
                 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
-        
         .footer {
             margin-top: 60px;
             text-align: center;
@@ -513,7 +505,6 @@
             animation: fadeInUp 0.8s ease 1.0s both;
         }
 
-        
         .container::before,
         .container::after {
             content: '';
@@ -545,7 +536,6 @@
             to { opacity: 1; }
         }
 
-        
         .username:hover {
             animation: glitch 0.3s ease;
         }
@@ -558,7 +548,6 @@
             80% { transform: translate(2px, -2px); }
         }
 
-        
         @media (max-width: 768px) {
             .username {
                 font-size: 2.5rem;
@@ -596,6 +585,7 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: none;
         }
 
         .bg-toggle:hover {
@@ -804,6 +794,7 @@
             color: var(--text-dim);
             font-size: 0.8rem;
             line-height: 1.4;
+            white-space: pre-line;
         }
 
         .analytics-btn {
@@ -1021,7 +1012,7 @@
             statusDot.className = `status-dot ${presence.discord_status}`;
             statusText.textContent = statusMap[presence.discord_status] || 'Offline';
             
-            const activity = presence.activities.find(a => a.type !== 4 && a.name !== 'Spotify');
+            const activity = presence.activities && presence.activities.length > 0 ? presence.activities.find(a => a.type !== 4) : null;
             
             if (activity) {
                 discordWidget.classList.add('active');
@@ -1035,7 +1026,7 @@
                 document.getElementById('activityDetails').textContent = details.join('\n') || 'Playing';
                 
                 const activityImage = document.getElementById('activityImage');
-                if (activity.assets?.large_image) {
+                if (activity.assets && activity.assets.large_image) {
                     const imageUrl = activity.assets.large_image.startsWith('mp:')
                         ? `https://media.discordapp.net/${activity.assets.large_image.replace('mp:', '')}`
                         : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`;
@@ -1052,7 +1043,7 @@
         }
 
         function updateSpotify(presence) {
-            const spotify = presence.spotify;
+            const spotify = presence.listening_to_spotify && presence.spotify ? presence.spotify : null;
             const spotifyWidget = document.getElementById('spotifyWidget');
             
             if (spotify) {
