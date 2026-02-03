@@ -33,6 +33,7 @@
             position: relative;
         }
 
+        
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -47,6 +48,7 @@
             z-index: 0;
         }
 
+        
         .grid-bg {
             position: fixed;
             top: 0;
@@ -71,6 +73,7 @@
             50% { opacity: 0.6; }
         }
 
+        
         .scanlines {
             position: fixed;
             top: 0;
@@ -102,6 +105,7 @@
             align-items: center;
         }
 
+        
         .profile {
             text-align: center;
             margin-bottom: 50px;
@@ -191,6 +195,72 @@
             background-clip: text;
             animation: fadeInUp 0.8s ease 0.2s both, float 3s ease-in-out infinite;
             filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+            position: relative;
+            display: inline-block;
+        }
+
+        .username::before,
+        .username::after {
+            content: 'Solar';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .username::before {
+            animation: glitch-1 2.5s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            transform: translate(-2px, -2px);
+        }
+
+        .username::after {
+            animation: glitch-2 2.5s infinite;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            transform: translate(2px, 2px);
+        }
+
+        @keyframes glitch-1 {
+            0%, 100% {
+                transform: translate(0);
+                opacity: 0;
+            }
+            20% {
+                transform: translate(-3px, 3px);
+                opacity: 1;
+            }
+            40% {
+                transform: translate(-3px, -3px);
+                opacity: 1;
+            }
+            60% {
+                transform: translate(3px, 3px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glitch-2 {
+            0%, 100% {
+                transform: translate(0);
+                opacity: 0;
+            }
+            25% {
+                transform: translate(3px, -3px);
+                opacity: 1;
+            }
+            45% {
+                transform: translate(3px, 3px);
+                opacity: 1;
+            }
+            65% {
+                transform: translate(-3px, -3px);
+                opacity: 0;
+            }
         }
 
         .bio {
@@ -209,6 +279,7 @@
             animation: fadeInUp 0.8s ease 0.4s both;
         }
 
+        
         .stats {
             display: flex;
             gap: 30px;
@@ -265,6 +336,7 @@
             letter-spacing: 1px;
         }
 
+        
         .buttons {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -350,6 +422,7 @@
         .btn:nth-child(2) { animation: fadeInUp 0.8s ease 0.7s both; }
         .btn:nth-child(3) { animation: fadeInUp 0.8s ease 0.8s both; }
 
+        
         .socials {
             display: flex;
             gap: 15px;
@@ -404,6 +477,7 @@
                 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
+        
         .footer {
             margin-top: 60px;
             text-align: center;
@@ -412,6 +486,7 @@
             animation: fadeInUp 0.8s ease 1.0s both;
         }
 
+        
         .container::before,
         .container::after {
             content: '';
@@ -443,6 +518,7 @@
             to { opacity: 1; }
         }
 
+        
         .username:hover {
             animation: glitch 0.3s ease;
         }
@@ -455,6 +531,7 @@
             80% { transform: translate(2px, -2px); }
         }
 
+        
         @media (max-width: 768px) {
             .username {
                 font-size: 2.5rem;
@@ -472,9 +549,71 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .bg-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .bg-toggle:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .bg-toggle svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        body.bg-active::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.3;
+            z-index: -1;
+            transition: opacity 0.5s ease;
+        }
+
+        body.bg-active .bg-gradient {
+            opacity: 0.5;
+        }
+
+        body.bg-active .grid-bg {
+            opacity: 0.3;
+        }
     </style>
 </head>
 <body>
+    <button class="bg-toggle" id="bgToggle">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+        <span>Background</span>
+    </button>
+    
     <div class="bg-gradient"></div>
     <div class="grid-bg"></div>
     <div class="scanlines"></div>
@@ -531,7 +670,7 @@
         </div>
 
         <div class="socials">
-            <a href="https://instagram.com/yourusername" class="social-btn" target="_blank" title="Instagram">
+            <a href="https://instagram.com/xxsolarxx09" class="social-btn" target="_blank" title="Instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
             </a>
             <a href="https://discord.gg/ezz" class="social-btn" target="_blank" title="Discord Server">
@@ -574,7 +713,7 @@
             const fingerprint = await generateFingerprint();
             const viewersKey = 'uniqueViewers';
             const viewers = JSON.parse(localStorage.getItem(viewersKey) || '[]');
-
+            
             if (!viewers.includes(fingerprint)) {
                 viewers.push(fingerprint);
                 localStorage.setItem(viewersKey, JSON.stringify(viewers));
@@ -642,6 +781,17 @@
             }
         `;
         document.head.appendChild(style);
+
+        const bgToggle = document.getElementById('bgToggle');
+        const savedBgState = localStorage.getItem('bgActive');
+        if (savedBgState === 'true') {
+            document.body.classList.add('bg-active');
+        }
+
+        bgToggle.addEventListener('click', () => {
+            document.body.classList.toggle('bg-active');
+            localStorage.setItem('bgActive', document.body.classList.contains('bg-active'));
+        });
     </script>
 </body>
 </html>
